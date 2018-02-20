@@ -21,7 +21,7 @@ Image non représentative du résultat final
 
 - Trouver et lire des données
 - DNN feed forward avec back propagation
-- Analyse topographique
+- Classifieur du plus proche voisin
 
 ## Traitement des images
 
