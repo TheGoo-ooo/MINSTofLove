@@ -67,6 +67,9 @@ class NeuralNetwork:
     def relu(self, *values):
         return [np.maximum(0, x) for x in values]
 
+    def none(self, *values):
+        return [x for x in values]
+
 # Public funcitons.
     def feedForward(self):
         self.layers[0] = np.array(
