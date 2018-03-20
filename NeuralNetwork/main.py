@@ -16,17 +16,18 @@ solution = [
 ]
 
 dnn = NeuralNetwork()
-backprop = BackPropagation(dnn, input_data, solution)
+bp = BackPropagation(dnn, input_data, solution)
 
 dnn.initLayer(*[2, 3, 1])
 dnn.setActivation(*[dnn.none, dnn.tanh, dnn.relu])
 dnn.feedForward()
 
-backprop.initOutput()
+bp.initAll()
 
+print(bp.dw)
+print(dnn.weights)
 
-print(backprop)
-print(dnn)
+#print(dnn)
 print("\nOutput: " + str(dnn.getOutput()))
 
 print("done!")

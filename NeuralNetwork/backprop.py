@@ -5,6 +5,15 @@ import numpy as np
 
 class BackPropagation:
     """
+    Back propagation using partial derivatives.
+    ---------------------------------------------
+    Co: costFunction
+    y: solution
+    a(L): partial derivative of a neuronself.
+    w(L): weight
+    b(L): bias
+    L: a given layer from 0 to n
+    ---------------------------------------------
     Co = (a(L) - y)^2
     z(L) = w(L)*a(L-1) + b(L)
     a(L) = activ(z(L))
@@ -16,6 +25,11 @@ class BackPropagation:
         self.solution = np.array(solution).astype(float)
         self.output = np.empty_like(self.solution)
         self.dnn = neural_network
+        self.cost = []
+        # d: derivative
+        self.da = []
+        self.db = []
+        self.dw = []
 
 
     def __str__(self):
@@ -39,6 +53,14 @@ class BackPropagation:
         return accu
 
 
+    def initAll(self):
+        self.initOutput()
+        self.initCost()
+        self.initDa()
+        self.initDb()
+        self.initDw()
+
+
     def initOutput(self):
         """ Gives every input data to the network and saves the output."""
         for i in range(len(self.input_data)):
@@ -47,9 +69,34 @@ class BackPropagation:
             self.output[i] = self.dnn.getOutput()
 
 
+    def initCost(self):
+        self.cost = self.getCost()
+
+
+    def initDa(self):
+        self.da = np.delete(np.empty_like(self.dnn.layers), 0)
+        for i in range(0, len(self.da)):
+            self.da[i] = np.zeros(len(self.dnn.layers[i+1]))
+
+
+    def initDb(self):
+        self.db = np.empty_like(self.dnn.bias)
+        for i in range(0, len(self.db)):
+            self.db[i] = np.zeros(len(self.dnn.bias[i]))
+
+
+    def initDw(self):
+        self.dw = np.empty_like(self.dnn.weights)
+        for i in range(0, len(self.dw)):
+            self.dw[i] = np.empty_like(self.dnn.weights[i])
+            for j in range(0, len(self.dw[i])):
+                self.dw[i][j] = np.zeros(len(self.dnn.weights[i][j]))
+
+
     def getCost(self):
         """ Calculate the 'cost', error squared."""
-        return np.power(output[i]-solution[i],2)
+        return np.array([np.power(self.output[i]-self.solution[i],2)
+                for i in range(len(self.solution))])
 
 
     def costDerivate(self):
