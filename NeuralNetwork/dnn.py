@@ -13,15 +13,16 @@ class NeuralNetwork:
 
     Recommendation:
         Understanding Activation Functions in Neural Networks:
-        https://medium.com/the-theory-of-everything/understanding-activation-functions-in-neural-networks-9491262884e0
+        https://medium.com/the-theory-of-everything/understanding-activation-
+            functions-in-neural-networks-9491262884e0
 
         But what *is* a Neural Network? | Chapter 1, deep learning:
-        https://www.youtube.com/watch?v=aircAruvnKk&t=187s&ab_channel=3Blue1Brown
+        https://www.youtube.com/watch?v=aircAruvnKk&t=187s&ab_channel
+            =3Blue1Brown
 
     Credits:
         Avinash Sharma V - for the article on activation functions (medium.com).
         3Blue1Brown - for the video course on deep learning (Youtube).
-
     """
 
     def __init__(self):
@@ -68,7 +69,7 @@ class NeuralNetwork:
         return [np.maximum(0, x) for x in values]
 
     def none(self, *values):
-        return [x for x in values]
+        return values
 
 # Public funcitons.
     def feedForward(self):
