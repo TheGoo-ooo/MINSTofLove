@@ -53,22 +53,36 @@ class NeuralNetwork:
         return accu
 
 # Activation funcitons.
-    def sigmoid(self, *values):
+    def sigmoid(self, *values, derivate=False):
+        if derivate is True:
+            return [(np.exp(-x))/ float(np.power(1+np.exp(-x), 2))
+                    for x in values]
         return [1/float(1+np.exp(-x)) for x in values]
 
 
-    def tanh(self, *values):
-        return [2*x-1 for x in self.sigmoid(*values)]
+    def tanh(self, *values, derivate=False):
+        if derivate is True:
+            return [1/float(np.power(np.cosh(x),2)) for x in values]
+        return [np.tanh(x) for x in values]
 
 
-    def softmax(self, *values):
+    def softmax(self, *values, derivate=False):
+        if derivate is True:
+            print("(Softmax) This function has no derivative "+
+                  " asigned to it for now.")
+            return 1
         return np.exp(values) / float(sum(np.exp(values)))
 
 
-    def relu(self, *values):
+
+    def relu(self, *values, derivate=False):
+        if derivate is True:
+            return [ 0 if x<0 else 1 for x in values]
         return [np.maximum(0, x) for x in values]
 
-    def none(self, *values):
+    def none(self, *values, derivate=False):
+        if derivate is True:
+            return [1 for x in values]
         return values
 
 # Public funcitons.
@@ -85,6 +99,7 @@ class NeuralNetwork:
     def initLayer(self, *neurons_per_layers):
         for nb_neurons in neurons_per_layers:
             self.__makeLayer(nb_neurons)
+        self.__current_layer = 0
 
 
     def getOutput(self):
@@ -109,7 +124,6 @@ class NeuralNetwork:
     def __makeLayer(self, nb_neurons):
         # Create layer.
         self.layers.append(np.zeros(nb_neurons))
-
 
         if self.__current_layer is not 0:
             last_layer_len = len(self.layers[self.__current_layer-1])
