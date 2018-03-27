@@ -15,25 +15,26 @@ window.geometry("750x500")
 window.resizable(False, False)
 #ctr_left=Canvas()
 
+
 def work():
     print("hehe")
     
 
+# Open a pygame screen for drawing
 def draw():
     (width, height) = (280, 280)
     screen = pygame.display.set_mode((width, height))
-    screen.fill((255, 255, 255))
+    screen.fill((0, 0, 0))
     draw_on = False
     last_pos = (0, 0)
-    color=(255, 128, 0)
-    radius = 6
+    color=(255, 255, 255)
+    radius = 10
     try:
         while True:
             e = pygame.event.wait()
             if e.type == pygame.QUIT:
                 raise StopIteration
             if e.type == pygame.MOUSEBUTTONDOWN:
-                color = (random.randrange(256), random.randrange(256), random.randrange(256))
                 pygame.draw.circle(screen, color, e.pos, radius)
                 draw_on = True
             if e.type == pygame.MOUSEBUTTONUP:
@@ -48,7 +49,7 @@ def draw():
                     screen.fill((255, 255, 255))
                     pygame.display.update()
                 if e.key==pygame.K_SPACE:
-                    pygame.image.save(screen, "imgTest.jpeg")
+                    pygame.image.save(screen, "imgTest.png")
                     pass
             pygame.display.flip()
     
@@ -57,7 +58,7 @@ def draw():
     pygame.quit()
     
 
-
+# Define draw
 def roundline(srf, color, start, end, radius=1):
     dx = end[0]-start[0]
     dy = end[1]-start[1]
@@ -70,7 +71,7 @@ def roundline(srf, color, start, end, radius=1):
 
 # Open a picture and get filename
 def open():
-    filename = tk.filedialog.askopenfilename(title="Open a picture", filetypes=[('jpeg files', '.jpeg'),('all files','.*')])
+    filename = tk.filedialog.askopenfilename(title="Open a picture", filetypes=[('png files', '.png')])
     img = Image.open(filename)
     img = img.resize((350, 350), Image.ANTIALIAS)
     pic = ImageTk.PhotoImage(img)
