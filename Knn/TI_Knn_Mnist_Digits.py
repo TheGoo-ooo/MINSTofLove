@@ -38,8 +38,8 @@ class KNNDigits():
         else:
             # Ces deux lignes sert à créer le modèle .sav qui est le résultat de l'entrainement du modèle
             self.modelTrain(x_train,y_train)
-            im ,t= self.scoreKnn(x_test,y_test)
-        
+            
+#        im ,t = self.scoreKnn(x_test,y_test)
         self.predictionKnn = self.rectangleImage(cv2.imread(self.PATH_IMAGE), 10) 
         
     def __str__(self):
@@ -61,23 +61,23 @@ class KNNDigits():
         #Sauvegarder le modèle
         pickle.dump(knn, open(self.PATH_SAV, 'wb'))
     
-    #Obtient le pourcentage de test réussis
-    def scoreKnn(self, x_test, y_test):
-        # load the model from disk
-        knn = pickle.load(open(self.PATH_SAV, 'rb'))
-        list_hog_fd = []
-        for feature in x_test:
-            fd = hog(feature.reshape((28, 28)), orientations=9, pixels_per_cell=(14, 14), cells_per_block=(1, 1),
-                     visualise=False)
-            list_hog_fd.append(fd)
-    
-        x_test = np.array(list_hog_fd, 'float64')
-    
-        score = knn.score(x_test, y_test)
-        print("Le score est : ")
-        print(np.round(score * 100, 2), "%")
-    
-        return x_test, y_test
+#    #Obtient le pourcentage de test réussis
+#    def scoreKnn(self, x_test, y_test):
+#        # load the model from disk
+#        knn = pickle.load(open(self.PATH_SAV, 'rb'))
+#        list_hog_fd = []
+#        for feature in x_test:
+#            fd = hog(feature.reshape((28, 28)), orientations=9, pixels_per_cell=(14, 14), cells_per_block=(1, 1),
+#                     visualise=False)
+#            list_hog_fd.append(fd)
+#    
+#        x_test = np.array(list_hog_fd, 'float64')
+#    
+#        score = knn.score(x_test, y_test)
+#        print("Le score est : ")
+#        print(np.round(score * 100, 2), "%")
+#    
+#        return x_test, y_test
     
     #La prediction avec l'algo de KNN
     def predictionKnn(self, image):
