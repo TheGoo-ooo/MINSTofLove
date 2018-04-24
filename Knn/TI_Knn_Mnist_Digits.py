@@ -40,7 +40,10 @@ class KNNDigits():
             self.modelTrain(x_train,y_train)
             im ,t= self.scoreKnn(x_test,y_test)
         
-        self.rectangleImage(cv2.imread(self.PATH_IMAGE), 10)
+        self.predictionKnn = self.rectangleImage(cv2.imread(self.PATH_IMAGE), 10) 
+        
+    def __str__(self):
+        return str(self.predictionKnn)
 
     #On utilise le model MNIST pour entrainer notre modèle
     def modelTrain(self, x_train, y_train):
@@ -155,10 +158,12 @@ class KNNDigits():
             ex = self.predictionKnn(nums[n])
     
             digits[rects[n][0][0]][rects[n][0][1]] = [ex]
-            ax.text(rects[n][0][0] + 3, rects[n][0][1] - 3, str(int(ex)), style='italic')
+#            ax.text(rects[n][0][0] + 10, rects[n][0][1] - 3, str(int(ex)), style='italic')
         
         plt.axis('off')
         fig.savefig('../ressources/image_resultat.png')
+        return int(ex)
 
 
 t = KNNDigits('../ressources/image2.png')
+print(t)
