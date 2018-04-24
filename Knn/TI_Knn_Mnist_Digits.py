@@ -156,6 +156,9 @@ class KNNDigits():
     
             digits[rects[n][0][0]][rects[n][0][1]] = [ex]
             ax.text(rects[n][0][0] + 3, rects[n][0][1] - 3, str(int(ex)), style='italic')
+        
+        plt.axis('off')
+        fig.savefig('../ressources/image_resultat.png')
 
 
 t = KNNDigits('../ressources/image2.png')
