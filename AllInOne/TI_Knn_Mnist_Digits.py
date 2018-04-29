@@ -145,24 +145,26 @@ class KNNDigits():
     
     #Va mettre un rectangle autour de chaque chiffre et prédire ces derniers
     def rectangleImage(self, image, padd):
+        tabPredic = []
         fig, ax = plt.subplots(1)
         ax.imshow(image)
     
         nums, ph, rects = self.inputImage(image, padd)
         digits = self.limitImage(rects, nums)
         for n in range(len(nums)):
-            rect = patches.Rectangle(rects[n][0], rects[n][1], rects[n][2], linewidth=3, edgecolor='r',
+            rect = patches.Rectangle(rects[n][0], rects[n][1], rects[n][2], linewidth=2, edgecolor='r',
                                      facecolor='none')
             
             ax.add_patch(rect)
             ex = self.predictionKnn(nums[n])
+            tabPredic.append(int(ex))
     
             digits[rects[n][0][0]][rects[n][0][1]] = [ex]
-#            ax.text(rects[n][0][0] + 10, rects[n][0][1] - 3, str(int(ex)), style='italic')
+#            ax.text(rects[n][0][0], rects[n][0][1] -10, str(int(ex)), style='italic')
         
         plt.axis('off')
-        fig.savefig('imgResult.png')
-        return int(ex)
+        fig.savefig('../ressources/image_resultat.png')
+        return tabPredic
 
 
 # = KNNDigits('../ressources/image2.png')
