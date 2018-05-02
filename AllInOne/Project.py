@@ -42,7 +42,7 @@ class MainWindow():
         self.ctr_left = Canvas(self.center, width=370, height=300)
         self.ctr_left.grid(row=0, column=0, sticky="ns")
         
-        self.ctr_right = Canvas(self.center, width=370, height=300, bg='white')
+        self.ctr_right = Canvas(self.center, width=370, height=300)
         self.ctr_right.grid(row=0, column=2, sticky="ns")
         
         self.lblRight = Label(self.btm_frame, textvariable=self.result)
@@ -68,10 +68,12 @@ class MainWindow():
         Prep.process(self.saveFilename)
         self.saveFilenameRes = 'imgResult.png'
         self.res = TI.KNNDigits(self.saveFilenameRes)
-        self.result.set("Your number is " + str(self.res))
+        self.strRes = str(self.res)
+        if len(self.strRes) > 3:
+            self.result.set("Your number is " + self.strRes[1] + self.strRes[4])
+        else:
+            self.result.set("Your number is " + self.strRes)
         
-        #self.lblRight.labelText = self.result
-        #.lblRight.grid(row=0, column=0, sticky="nsew")
         self.displayPictureRight()
                 
     
@@ -142,7 +144,7 @@ class MainWindow():
     # Display picture on the canvas
     def displayPictureRight(self):
         self.imgRight = Image.open(self.saveFilenameRes)
-        self.imgRight = self.imgRight.resize((350, 350), Image.ANTIALIAS)
+        self.imgRight = self.imgRight.resize((280, 280), Image.ANTIALIAS)
         self.picRight = ImageTk.PhotoImage(self.imgRight)
         self.ctr_right.create_image(self.ctr_right.winfo_width()/2, self.ctr_right.winfo_width()/2, image=self.picRight, anchor=CENTER)
         

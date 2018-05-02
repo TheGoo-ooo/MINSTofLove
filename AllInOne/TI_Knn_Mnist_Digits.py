@@ -163,7 +163,7 @@ class KNNDigits():
 #            ax.text(rects[n][0][0], rects[n][0][1] -10, str(int(ex)), style='italic')
         
         plt.axis('off')
-        fig.savefig('../ressources/image_resultat.png')
+        fig.savefig('imgResult.png')
         return tabPredic
 
 
