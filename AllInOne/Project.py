@@ -11,64 +11,65 @@ import threading
 import pygame, random
 import cv2
 import TI_Knn_Mnist_Digits as TI
-import preprocessing as Prep
+import Preprocessing as Prep
 import os, os.path
 import use_dnn as dnn
+import numpy as np
 
 
 class MainWindow():
     def __init__(self, window):
-        
+
         self.result = StringVar()
         self.result.set("Result here : ")
-        
+
         # create all of the main containers
         self.top_frame = Frame(window, bg='gray', width=450, height=50, pady=3)
         self.center = Frame(window, bg='gray2', width=50, height=40, padx=3, pady=3)
         self.btm_frame = Frame(window, bg='white', width=450, height=60, pady=0)
-        
-        
+
+
         # layout all of the main containers
         window.grid_rowconfigure(1, weight=1)
         window.grid_columnconfigure(0, weight=1)
-        
+
         self.top_frame.grid(row=0, sticky="ew")
         self.center.grid(row=1, sticky="nsew")
         self.btm_frame.grid(row=2, sticky="ew")
-        
-        
+
+
         # create the center widgets
         self.center.grid_rowconfigure(0, weight=1)
         self.center.grid_columnconfigure(0, weight=1)
-        
+
         self.ctr_left = Canvas(self.center, width=370, height=300)
         self.ctr_left.grid(row=0, column=0, sticky="ns")
-        
+
         self.ctr_right = Canvas(self.center, width=370, height=300)
         self.ctr_right.grid(row=0, column=2, sticky="ns")
-        
+
         self.lblRight = Label(self.btm_frame, textvariable=self.result)
         self.lblRight.config(font=("Arial", 20))
         self.lblRight.grid(row=0, column=0, sticky="nsew")
-        
+
         # create the widgets for the top frame
         self.btn_import = Button(self.top_frame, text="From picture", command=self.open)
         self.btn_draw = Button(self.top_frame, text="From draw", command=self.draw)
         self.btn_work = Button(self.top_frame, text="Work Fasmy", command=self.workFasmy)
         self.btn_work2 = Button(self.top_frame, text="Work Julien", command=self.workJulien)
 
-        
-        
+
+
         # layout the widgets in the top frame
         self.btn_import.grid(row=1, column=2, padx=3)
         self.btn_draw.grid(row=1, column=3, padx=3)
         self.btn_work.grid(row=1, column=4, padx=3)
         self.btn_work2.grid(row=1, column=6, padx=3)
-        
+
         self.saveFilenameRes = ''
         self.dirPrep =  "./ressources/prep"
         self.dirKnn = "./ressources/knn"
-        
+
     #Delete repository files
     def cleanRepository(self):
         for file in os.listdir(self.dirPrep):
@@ -88,17 +89,30 @@ class MainWindow():
         for file in os.listdir(self.dirPrep):
             if file.endswith(".png"):
                 tabFiles.append(self.dirPrep + '/' + file)
-                
+
         return tabFiles
-            
-        
+
+
     def workFasmy(self):
         tabFiles = self.prepFiles('FASMY')
-    
+
         for f in tabFiles:
             print("HAHA" + f)
-            #self.result.set("Your number is " + dnn.predict(f))
-        
+            image = cv2.imread(f)
+            h,w, bpp = np.shape(image)
+            tab = np.array(image)
+            tabFinal = [0]*(h*w)
+            i = 0
+            for x in range(0,h):
+                for y in range(0,w):
+                    #print(image[x][y][0])
+                    tabFinal[i] = image[x][y][0]
+                    i += 1
+            n_samples = len(tabFinal)
+            tabFinal = np.array(tabFinal, dtype='uint8')
+            data = tabFinal.reshape((n_samples), -1)
+            self.result.set("Your number is " + str(dnn.predict([tabFinal])))
+
 
     def workJulien(self):
         tabFiles = self.prepFiles('JULIEN')
@@ -109,11 +123,11 @@ class MainWindow():
             tabRes.append(str(res))
         for i in tabRes:
             strRes += i
-        
+
         self.result.set("Your number is " + strRes)
-        #self.displayPictureRight()                
-    
-    
+        #self.displayPictureRight()
+
+
     # Pygame window
     def draw(self):
         (width, height) = (280, 280)
@@ -148,12 +162,12 @@ class MainWindow():
                         self.displayPictureLeft()
                         raise StopIteration
                 pygame.display.flip()
-        
+
         except StopIteration:
             pass
         pygame.quit()
-        
-    
+
+
     # For drawing line
     def roundline(self, srf, color, start, end, radius=1):
         dx = end[0]-start[0]
@@ -163,14 +177,14 @@ class MainWindow():
             x = int( start[0]+float(i)/distance*dx)
             y = int( start[1]+float(i)/distance*dy)
             pygame.draw.circle(srf, color, (x, y), radius)
-        
-    
+
+
     # Open a picture and get saveFilename
     def open(self):
         self.saveFilename = tk.filedialog.askopenfilename(title="Open a picture", filetypes=[('png files', '.png'),('all files','.*')])
         self.displayPictureLeft()
-        
-     
+
+
     # Display picture on the canvas
     def displayPictureLeft(self):
         self.imgLeft = Image.open(self.saveFilename)
@@ -184,7 +198,7 @@ class MainWindow():
         self.imgRight = self.imgRight.resize((280, 280), Image.ANTIALIAS)
         self.picRight = ImageTk.PhotoImage(self.imgRight)
         self.ctr_right.create_image(self.ctr_right.winfo_width()/2, self.ctr_right.winfo_width()/2, image=self.picRight, anchor=CENTER)
-        
+
 
 root = Tk()
 root.title('Traitement Image')
