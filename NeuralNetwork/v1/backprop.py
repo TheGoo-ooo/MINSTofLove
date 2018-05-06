@@ -36,7 +36,7 @@ class BackPropagation:
         """ A simple display for small input/output/solution."""
 
         accu = "BackPropagation Object: " + str(len(self.input_data[0]))
-        accu +=  " input(s), " + str(len(self.output[0])) + " output(s).\n"
+        accu +=  " input(s), "+str(len(self.output[0])) + " output(s).\n"
 
         accu += "Input data:\n"
         for i in range(len(self.input_data)):
@@ -53,24 +53,37 @@ class BackPropagation:
         return accu
 
 
+    def propagate(self):
+        self.initAll()
+        i=0 # Curretn in/out/solution
+
+        self.makeOutput(i)
+        diffCoA = self.costDerivate(i)
+        last = diffCoA
+
+        for j in range(len(self.dnn.layers)-1, 0, -1):
+            z = self.dnn.layers[j-1].dot(self.dnn.weights[j-1])+ self.dnn.bias[j-1]
+            diffAZ = self.outputDerivate(j, z)
+            diffZaa = self.zDerivateOverOutput(j-1)
+            diffZB = self.zDerivateOverBias()
+            diffZW = self.zDerivateOverWeight(j-1)
+            temp = diffAZ * last
+            print("----------------------")
+            print(str(diffZW) + " * " + str(temp))
+            print("Original: \n" + str(self.dw))
+            self.da[j-1] = (diffZaa * temp).sum(axis=0)
+            self.db[j-1] = (diffZB * temp)
+            self.dw[j-1] = (diffZW * temp)
+            print("New: \n" + str(self.dw))
+
+            last = self.da[j-1]
+
+
+
     def initAll(self):
-        self.initOutput()
-        self.initCost()
         self.initDa()
         self.initDb()
         self.initDw()
-
-
-    def initOutput(self):
-        """ Gives every input data to the network and saves the output."""
-        for i in range(len(self.input_data)):
-            self.dnn.layers[0] = self.input_data[i]
-            self.dnn.feedForward()
-            self.output[i] = self.dnn.getOutput()
-
-
-    def initCost(self):
-        self.cost = self.getCost()
 
 
     def initDa(self):
@@ -93,30 +106,36 @@ class BackPropagation:
                 self.dw[i][j] = np.zeros(len(self.dnn.weights[i][j]))
 
 
-    def getCost(self):
+    def makeOutput(self, i):
+        """ Gives input_data[i] to the network and get the ouput."""
+        self.dnn.layers[0] = self.input_data[i]
+        self.dnn.feedForward()
+        self.output[i] = self.dnn.getOutput()
+
+
+    def getCost(self, i):
         """ Calculate the 'cost', error squared."""
-        return np.array([np.power(self.output[i]-self.solution[i],2)
-                for i in range(len(self.solution))])
+        return np.power(self.output[i]-self.solution[i],2)
 
 
-    def costDerivate(self):
+    def costDerivate(self, i):
         """ Partial derivative of cost over output."""
-        return 2*(self.solution -self.output)
+        return 2*(self.solution[i]-self.output[i])
 
 
-    def outputDerivate(self):
-        """
-        Partial derivative of output over z.
-        """
-        return derivateOfActivationFunction(z)
+    def outputDerivate(self, i, z):
+        """ Partial derivative of output over z."""
+        return self.dnn.activation_func[i](*z, derivate=True)
 
 
-    def zDerivateOverWeight(self):
+    def zDerivateOverWeight(self, i):
         """
         Partial derivative of z over weight.
         'z' being: sum(weight(i)*output(i-1)) + bias(i).
         """
-        return a(L-1)
+        if i < 1:
+            return self.dnn.layers[0]
+        return self.da[i-1]
 
 
     def zDerivateOverBias(self):
@@ -124,14 +143,14 @@ class BackPropagation:
         Partial derivative of z over bias (always 1).
         'z' being: sum(weight(i)*output(i-1)) + bias(i).
         """
-        return 1
+        return [1]
 
 
-    def zDerivateOverOutput(self):
+    def zDerivateOverOutput(self, i):
         """
         Partial derivative of z over last output.
         'z' being: sum(weight(i)*output(i-1)) + bias(i).
         """
-        return weight(L)
+        return self.dnn.weights[i]
 
     pass

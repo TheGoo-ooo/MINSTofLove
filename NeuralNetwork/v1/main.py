@@ -1,5 +1,7 @@
+import numpy as np
 from dnn import NeuralNetwork
 from backprop import BackPropagation
+from activation import ActivationFunction as af
 
 input_data =[
     [1, 1],
@@ -19,15 +21,10 @@ dnn = NeuralNetwork()
 bp = BackPropagation(dnn, input_data, solution)
 
 dnn.initLayer(*[2, 3, 1])
-dnn.setActivation(*[dnn.none, dnn.tanh, dnn.relu])
+dnn.setActivation(*[af.none, af.tanh, af.relu])
 dnn.feedForward()
 
-bp.initAll()
-
-print(bp.dw)
-print(dnn.weights)
-
+bp.propagate()
 #print(dnn)
-print("\nOutput: " + str(dnn.getOutput()))
 
 print("done!")
