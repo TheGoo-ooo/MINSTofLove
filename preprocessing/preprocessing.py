@@ -4,11 +4,6 @@
 import numpy as np
 import cv2
 
-from imutils.perspective import four_point_transform
-from imutils import contours
-import imutils
-
-
 def resize(img, size):
     resImg = cv2.resize(img, (size, size), interpolation=cv2.INTER_AREA)
     return resImg
