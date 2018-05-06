@@ -130,7 +130,7 @@ class MainWindow():
         for i in tabRes:
             strRes += i
 
-        self.result.set("Your number is " + strRes)
+        self.result.set("Your number is [" + strRes + "]")
         #self.displayPictureRight()
 
 
