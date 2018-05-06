@@ -17,7 +17,6 @@ for feature in features:
 hog_features = np.array(list_hog_fd, 'float64')
 
 clf = LinearSVC()
-
 clf.fit(hog_features, labels)
 
 joblib.dump(clf, "digits_cls.pkl", compress=3)
