@@ -3,6 +3,7 @@
 # https://www.pyimagesearch.com/2017/02/13/recognizing-digits-with-opencv-and-python/
 import numpy as np
 import cv2
+from skimage.feature import hog
 
 def resize(img, size):
     resImg = cv2.resize(img, (size, size), interpolation=cv2.INTER_AREA)
@@ -46,7 +47,11 @@ def extract(image, type):
          cv2.rectangle(image, (rect[0], rect[1]), (rect[0] + rect[2], rect[1] + rect[3]), (0, 0, 255), 3)
          #show(image, 'rect')
          # Make the rectangular region around the digit
-         extractedImg = img_thresh[rect[1]:(rect[1]+rect[3]), rect[0]:(rect[0]+rect[3])]
+         length = int(rect[3] * 1.2)
+         x = int(rect[1] + rect[3] // 2 - length // 2)
+         y = int(rect[0] + rect[2] // 2 - length // 2)
+         #extractedImg = img_thresh[rect[1]:(rect[1]+rect[3]), rect[0]:(rect[0]+rect[3])]
+         extractedImg = img_thresh[x:(x+length), y:(y+length)]
          # Resize the image
          extractedImg = resize(extractedImg, 28)
          extractedImg = cv2.dilate(extractedImg, (3, 3))
