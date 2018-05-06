@@ -136,7 +136,7 @@ class MainWindow():
 
     # Pygame window
     def draw(self):
-        (width, height) = (500, 500)
+        (width, height) = (800, 800)
         screen = pygame.display.set_mode((width, height))
         screen.fill((255, 255, 255))
         draw_on = False
