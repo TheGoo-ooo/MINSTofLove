@@ -142,7 +142,7 @@ class MainWindow():
         draw_on = False
         last_pos = (0, 0)
         color=(0, 0, 0)
-        radius = 6
+        radius = 9
         try:
             while True:
                 e = pygame.event.wait()
