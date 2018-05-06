@@ -11,7 +11,9 @@ import threading
 import pygame, random
 import cv2
 import TI_Knn_Mnist_Digits as TI
-import Preprocessing as Prep
+import preprocessing as Prep
+import os, os.path
+import use_dnn as dnn
 
 
 class MainWindow():
@@ -52,30 +54,65 @@ class MainWindow():
         # create the widgets for the top frame
         self.btn_import = Button(self.top_frame, text="From picture", command=self.open)
         self.btn_draw = Button(self.top_frame, text="From draw", command=self.draw)
-        self.btn_work = Button(self.top_frame, text="Work", command=self.work)
+        self.btn_work = Button(self.top_frame, text="Work Fasmy", command=self.workFasmy)
+        self.btn_work2 = Button(self.top_frame, text="Work Julien", command=self.workJulien)
+
         
         
         # layout the widgets in the top frame
         self.btn_import.grid(row=1, column=2, padx=3)
         self.btn_draw.grid(row=1, column=3, padx=3)
         self.btn_work.grid(row=1, column=4, padx=3)
+        self.btn_work2.grid(row=1, column=6, padx=3)
         
-        self.res = ''
         self.saveFilenameRes = ''
+        self.dirPrep =  "./ressources/prep"
+        self.dirKnn = "./ressources/knn"
         
-        
-    def work(self):
-        Prep.process(self.saveFilename)
-        self.saveFilenameRes = 'imgResult.png'
-        self.res = TI.KNNDigits(self.saveFilenameRes)
-        self.strRes = str(self.res)
-        if len(self.strRes) > 3:
-            self.result.set("Your number is " + self.strRes[1] + self.strRes[4])
-        else:
-            self.result.set("Your number is " + self.strRes)
-        
-        self.displayPictureRight()
+    #Delete repository files
+    def cleanRepository(self):
+        for file in os.listdir(self.dirPrep):
+            if file.endswith(".png"):
+                os.remove(self.dirPrep + '/' + file)
+
+        for file in os.listdir(self.dirKnn):
+            if file.endswith(".png"):
+                os.remove(self.dirKnn + '/' + file)
+
+    #Use preprocessing algo to prepare img
+    def prepFiles(self, type):
+        self.cleanRepository()
+
+        tabFiles = []
+        Prep.preprocess(self.saveFilename, type)
+        for file in os.listdir(self.dirPrep):
+            if file.endswith(".png"):
+                tabFiles.append(self.dirPrep + '/' + file)
                 
+        return tabFiles
+            
+        
+    def workFasmy(self):
+        tabFiles = self.prepFiles('FASMY')
+    
+        for f in tabFiles:
+            print("HAHA" + f)
+            #self.result.set("Your number is " + dnn.predict(f))
+        
+
+    def workJulien(self):
+        tabFiles = self.prepFiles('JULIEN')
+        tabRes = []
+        strRes = ''
+        for f in tabFiles:
+            res = TI.KNNDigits(f)
+            tabRes.append(str(res))
+        for i in tabRes:
+            strRes += i
+        
+        self.result.set("Your number is " + strRes)
+        #self.displayPictureRight()                
+    
     
     # Pygame window
     def draw(self):
@@ -106,8 +143,8 @@ class MainWindow():
                         screen.fill((255, 255, 255))
                         pygame.display.update()
                     if e.key==pygame.K_SPACE:
-                        pygame.image.save(screen, "imgTest.png")
-                        self.saveFilename="imgTest.png"
+                        pygame.image.save(screen, "ressources/imgDraw.png")
+                        self.saveFilename="ressources/imgDraw.png"
                         self.displayPictureLeft()
                         raise StopIteration
                 pygame.display.flip()
