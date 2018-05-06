@@ -117,7 +117,7 @@ class MainWindow():
 
         for i in res:
             strRes += i
-        self.result.set("Your number Neuronal Network is " + strRes)
+        self.result.set("SVC: Your number is " + strRes)
 
 
     def workJulien(self):
@@ -130,7 +130,7 @@ class MainWindow():
         for i in tabRes:
             strRes += '[' + i + ']'
 
-        self.result.set("Your number KNN is" + strRes)
+        self.result.set("KNN: Your number is" + strRes)
         #self.displayPictureRight()
 
 
