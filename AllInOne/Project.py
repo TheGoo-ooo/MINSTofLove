@@ -128,9 +128,9 @@ class MainWindow():
             res = TI.KNNDigits(f)
             tabRes.append(str(res))
         for i in tabRes:
-            strRes += i
+            strRes += '[' + i + ']'
 
-        self.result.set("Your number KNN is [" + strRes + "]")
+        self.result.set("Your number KNN is" + strRes)
         #self.displayPictureRight()
 
 
