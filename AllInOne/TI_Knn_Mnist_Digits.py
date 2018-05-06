@@ -125,7 +125,7 @@ class KNNDigits():
     #Va mettre un rectangle autour de chaque chiffre et prédire ces derniers
     def rectangleImage(self, image, padd):
         fig, ax = plt.subplots(1)
-        ax.imshow(image)
+#        ax.imshow(image)
     
         nums, ph, rects = self.inputImage(image, padd)
         digits = self.limitImage(rects, nums)

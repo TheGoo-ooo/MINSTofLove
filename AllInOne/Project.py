@@ -55,8 +55,8 @@ class MainWindow():
         # create the widgets for the top frame
         self.btn_import = Button(self.top_frame, text="From picture", command=self.open)
         self.btn_draw = Button(self.top_frame, text="From draw", command=self.draw)
-        self.btn_work = Button(self.top_frame, text="Work Fasmy", command=self.workFasmy)
-        self.btn_work2 = Button(self.top_frame, text="Work Julien", command=self.workJulien)
+        self.btn_work = Button(self.top_frame, text="SVC", command=self.workFasmy)
+        self.btn_work2 = Button(self.top_frame, text="KNN", command=self.workJulien)
 
 
 
@@ -98,7 +98,6 @@ class MainWindow():
         res = []
         strRes = ''
         for f in tabFiles:
-            print("HAHA" + f)
             image = cv2.imread(f)
             h,w, bpp = np.shape(image)
             tab = np.array(image)
@@ -117,7 +116,7 @@ class MainWindow():
 
         for i in res:
             strRes += i
-        self.result.set("SVC: Your number is " + strRes)
+        self.result.set("SVC: Your numbers are " + strRes)
 
 
     def workJulien(self):
@@ -130,7 +129,7 @@ class MainWindow():
         for i in tabRes:
             strRes += '[' + i + ']'
 
-        self.result.set("KNN: Your number is" + strRes)
+        self.result.set("KNN: Your numbers are " + strRes)
         #self.displayPictureRight()
 
 
