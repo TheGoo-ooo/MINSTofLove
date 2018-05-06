@@ -50,6 +50,18 @@ def extract(image, type):
          length = int(rect[3] * 1.2)
          x = int(rect[1] + rect[3] // 2 - length // 2)
          y = int(rect[0] + rect[2] // 2 - length // 2)
+
+         if x>=800:
+            x=799
+         elif x<=0:
+            x=1
+
+         if y>=800:
+            y=799
+         elif y<=0:
+            y=1
+
+
          #extractedImg = img_thresh[rect[1]:(rect[1]+rect[3]), rect[0]:(rect[0]+rect[3])]
          extractedImg = img_thresh[x:(x+length), y:(y+length)]
          # Resize the image
