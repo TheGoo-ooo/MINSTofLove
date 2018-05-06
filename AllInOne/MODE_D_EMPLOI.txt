@@ -1,0 +1,30 @@
+Utilisation de MINST of Love
+
+1. Lancez l'application:
+	
+	- python Project.py
+	
+2. Choisissez une image ou créez en une avec:
+
+	-From picture ou From draw
+
+3. Si vous decidez de créer votre propre image,
+utilisez la barre d'espace pour confirmer
+votre entrée. Vous pouvez dessiner plusieur
+chiffres sur la même image. Essayez de les
+espacer.
+
+4. Choisissez l'algorithmes que vous désirez
+essayer.
+
+	-SVC ou KKN
+	
+5. Visualisez les résultats en base de la fenêtre
+
+	-"Resul Here:"
+	-L'affichage entre le SVC et le KNN peut être
+	un peu différent. Le KNN peut afficher deux
+	nombres possible pour une solution. Ex:
+	Hésitation entre 1 & 7 -> [1,7]
+	
+6. Amusez-vous!
