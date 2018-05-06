@@ -95,7 +95,8 @@ class MainWindow():
 
     def workFasmy(self):
         tabFiles = self.prepFiles('FASMY')
-
+        res = []
+        strRes = ''
         for f in tabFiles:
             print("HAHA" + f)
             image = cv2.imread(f)
@@ -111,7 +112,12 @@ class MainWindow():
             n_samples = len(tabFinal)
             tabFinal = np.array(tabFinal, dtype='uint8')
             data = tabFinal.reshape((n_samples), -1)
-            self.result.set("Your number is " + str(dnn.predict([tabFinal])))
+            print(str(dnn.predict([tabFinal])))
+            res.append(str(dnn.predict([tabFinal])))
+
+        for i in res:
+            strRes += i
+        self.result.set("Your number is " + strRes)
 
 
     def workJulien(self):
@@ -130,7 +136,7 @@ class MainWindow():
 
     # Pygame window
     def draw(self):
-        (width, height) = (280, 280)
+        (width, height) = (500, 500)
         screen = pygame.display.set_mode((width, height))
         screen.fill((255, 255, 255))
         draw_on = False
