@@ -43,7 +43,7 @@ def extract(image, type):
     rects = [cv2.boundingRect(ctr) for ctr in ctrs]
     i = 0
     for rect in rects:
-         cv2.rectangle(image, (rect[0], rect[1]), (rect[0] + rect[2], rect[1] + rect[3]), (0, 255, 0), 3)
+         cv2.rectangle(image, (rect[0], rect[1]), (rect[0] + rect[2], rect[1] + rect[3]), (0, 0, 255), 3)
          show(image, 'rect')
          # Make the rectangular region around the digit
          extractedImg = img_thresh[rect[1]:(rect[1]+rect[3]), rect[0]:(rect[0]+rect[3])]
@@ -65,6 +65,6 @@ def preprocessGAB(filename, type='FASMY'):
 
 
 if __name__ == "__main__":
-    name = "image1"
+    name = "test"
     filename = "../ressources/" + name + ".png "
     preprocessGAB(filename)
