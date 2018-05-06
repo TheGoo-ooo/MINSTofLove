@@ -4,17 +4,17 @@ Utilisation de MINST of Love
 	
 	- python Project.py
 	
-2. Choisissez une image ou créez en une avec:
+2. Choisissez une image ou créez-en une avec:
 
 	-From picture ou From draw
 
-3. Si vous decidez de créer votre propre image,
+3. Si vous décidez de créer votre propre image,
 utilisez la barre d'espace pour confirmer
-votre entrée. Vous pouvez dessiner plusieur
+votre entrée. Vous pouvez dessiner plusieurs
 chiffres sur la même image. Essayez de les
 espacer.
 
-4. Choisissez l'algorithmes que vous désirez
+4. Choisissez l'algorithme que vous désirez
 essayer.
 
 	-SVC ou KKN
@@ -24,7 +24,7 @@ essayer.
 	-"Resul Here:"
 	-L'affichage entre le SVC et le KNN peut être
 	un peu différent. Le KNN peut afficher deux
-	nombres possible pour une solution. Ex:
+	nombres possibles pour une solution. Ex:
 	Hésitation entre 1 & 7 -> [1,7]
 	
 6. Amusez-vous!
